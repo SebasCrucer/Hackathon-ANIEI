@@ -1,0 +1,44 @@
+# ============================================
+# REQUISITOS DEL SISTEMA - Ritmo
+# Sistema de Detección de Estrés
+# ============================================
+
+# LIBRERÍAS PRINCIPALES (OBLIGATORIAS PARA TODOS)
+# ------------------------------------------------
+opencv-python==4.8.1.78    # Visión por computadora y captura de video
+deepface==0.0.95           # Análisis facial y detección de emociones
+numpy==1.26.4              # Computación numérica (compatible con TF 2.16)
+pandas==2.2.3              # Manejo de datos y exportación CSV
+numexpr==2.8.7             # Aceleración de operaciones numéricas
+scipy==1.11.4              # Funciones científicas
+
+# ============================================
+# TENSORFLOW - ELIGE SEGÚN TU HARDWARE
+# ============================================
+
+# OPCIÓN 1: Mac con chip Apple (M1/M2/M3)
+# ----------------------------------------
+# Descomenta estas 2 líneas si usas Mac con Apple Silicon:
+tensorflow-macos==2.16.2
+tensorflow-metal==1.1.0
+
+# OPCIÓN 2: Windows/Linux con GPU NVIDIA o solo CPU
+# --------------------------------------------------
+# Descomenta esta línea si usas Windows/Linux:
+# tensorflow==2.16.2
+
+# ============================================
+# NOTAS DE INSTALACIÓN
+# ============================================
+#
+# 1. NO INSTALES ambas versiones de TensorFlow al mismo tiempo
+# 2. Para Mac: usa tensorflow-macos + tensorflow-metal
+# 3. Para Windows/Linux: usa solo tensorflow
+# 4. La versión de NumPy DEBE ser 1.26.4 (no usar 2.x)
+# 5. Verifica GPU con: python check_gpu.py
+#
+# INSTALACIÓN:
+# pip install -r requirements.txt
+#
+# ============================================
+
