@@ -55,7 +55,7 @@ async function handleInit(config: DetectorConfig): Promise<void> {
     
     // OpenAI option disabled for now
     // Uncomment to enable OpenAI:
-    // const useDeepFace = config.apiKey?.includes('localhost:8000') || 
+    // const useDeepFace = config.apiKey?.includes('vk73m8n4-8000.usw3.devtunnels.ms') || 
     //                     config.apiKey?.includes('127.0.0.1:8000');
     // if (useDeepFace) {
     //   console.log('🎭 Using DeepFace (Local Model)');
@@ -129,10 +129,15 @@ async function handleFrame(
     }
 
     // Estimate quality (simplified for now)
+    // DeepFace always detects a face (enforce_detection=False)
+    // So we only mark face as lost if confidence is extremely low
     const quality = createDetectionQuality(
-      rawMetrics.confidence > 0.3 ? 0.8 : 0.3, // Light quality approximation
-      rawMetrics.confidence < 0.2 // Face lost if confidence is very low
+      rawMetrics.confidence > 0.3 ? 0.8 : 0.5, // Light quality approximation
+      rawMetrics.confidence < 0.05 // Face lost only if confidence is extremely low
     );
+
+    // Extract extended data if available
+    const extended = (rawMetrics as any).extended;
 
     // Send metrics back to main thread
     self.postMessage({
@@ -140,6 +145,7 @@ async function handleFrame(
       metrics: smoothedMetrics,
       quality,
       fpsProc,
+      extended: extended || undefined,
     });
   } catch (error) {
     self.postMessage({

@@ -55,6 +55,19 @@ export interface MetricsMessage {
   metrics: EmotionMetrics;
   quality: DetectionQuality;
   fpsProc: number;
+  extended?: {
+    dominantEmotion: string;
+    emotions: {
+      angry: number;
+      disgust: number;
+      fear: number;
+      happy: number;
+      sad: number;
+      surprise: number;
+      neutral: number;
+    };
+    stressLevel: number;
+  };
 }
 
 export interface ErrorMessage {

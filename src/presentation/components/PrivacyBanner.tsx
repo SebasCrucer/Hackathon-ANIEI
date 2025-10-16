@@ -17,10 +17,9 @@ export const PrivacyBanner: React.FC = () => {
         </div>
         <div className="ml-3">
           <p className="text-sm text-yellow-700">
-            <strong>Aviso de Privacidad:</strong> Los frames de video se procesan
-            de forma segura a través de nuestro servidor. Tu API key de OpenAI 
-            nunca se expone al navegador. Esto no es un diagnóstico médico.
-            Puede fallar con poca luz u oclusiones.
+            <strong>Aviso de Privacidad:</strong> El procesamiento de video es 100% local
+            usando DeepFace. Tus datos nunca salen de tu dispositivo. 
+            Esto no es un diagnóstico médico. Puede fallar con poca luz u oclusiones.
           </p>
         </div>
       </div>

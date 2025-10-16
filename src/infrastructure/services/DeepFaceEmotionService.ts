@@ -36,7 +36,7 @@ interface DeepFaceEmotionResponse {
  * - Más rápido (sin latencia de red externa)
  * - Control total del modelo
  * 
- * Requiere servidor Python corriendo en localhost:8000
+ * Requiere servidor Python corriendo en vk73m8n4-8000.usw3.devtunnels.ms
  */
 export class DeepFaceEmotionService implements IEmotionDetector {
   private apiEndpoint: string = '';
@@ -44,7 +44,7 @@ export class DeepFaceEmotionService implements IEmotionDetector {
 
   async initialize(config: DetectorConfig): Promise<void> {
     // Usar endpoint local del servidor DeepFace
-    this.apiEndpoint = config.apiKey || 'http://localhost:8000/api/analyze-emotion';
+    this.apiEndpoint = config.apiKey || 'http://vk73m8n4-8000.usw3.devtunnels.ms/api/analyze-emotion';
     
     // Verificar que el servidor esté disponible
     try {
@@ -97,11 +97,21 @@ export class DeepFaceEmotionService implements IEmotionDetector {
         stress: result.stress_level.toFixed(1),
       });
 
-      return createEmotionMetrics(
+      // Crear métricas básicas
+      const metrics = createEmotionMetrics(
         result.valence,
         result.arousal,
         result.confidence
       );
+
+      // Agregar datos extendidos como propiedad adicional
+      (metrics as any).extended = {
+        dominantEmotion: result.dominant_emotion,
+        emotions: result.emotions,
+        stressLevel: result.stress_level,
+      };
+
+      return metrics;
     } catch (error) {
       console.error('Emotion detection error:', error);
       // Retornar valores neutrales con baja confianza en caso de error

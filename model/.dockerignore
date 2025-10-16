@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+*.egg-info/
+
+# Logs
+*.log
+server.log
+
+# Model cache (se descarga automáticamente)
+.deepface/
+weights/
+
+# Temporal
+*.tmp
+*.bak
+.DS_Store

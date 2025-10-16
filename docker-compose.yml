@@ -1,0 +1,46 @@
+services:
+  # Servicio de DeepFace API (Backend)
+  deepface-api:
+    build:
+      context: ./model
+      dockerfile: Dockerfile
+    container_name: emotion-detection-api
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TF_CPP_MIN_LOG_LEVEL=2
+    volumes:
+      # Cache de modelos para no descargarlos cada vez
+      - deepface-models:/root/.deepface
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - emotion-network
+
+  # Servicio Frontend (React + Vite + Nginx)
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: emotion-detection-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - deepface-api
+    restart: unless-stopped
+    networks:
+      - emotion-network
+
+networks:
+  emotion-network:
+    driver: bridge
+
+volumes:
+  deepface-models:
+    driver: local
