@@ -234,8 +234,8 @@ if __name__ == "__main__":
     import uvicorn
     print("🚀 Starting Emotion Detection API...")
     print("📊 Using DeepFace model")
-    print("🌐 Server will be available at http://localhost:8000")
-    print("📚 Docs at http://localhost:8000/docs")
+    print("🌐 Server will be available at http://vk73m8n4-8000.usw3.devtunnels.ms")
+    print("📚 Docs at http://vk73m8n4-8000.usw3.devtunnels.ms/docs")
     
     uvicorn.run(app, host="0.0.0.0", port=8000, log_level="info")
 

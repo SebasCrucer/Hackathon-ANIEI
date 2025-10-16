@@ -9,7 +9,15 @@ import { DetectionQuality } from '../../domain/value-objects/DetectionQuality';
 import { CameraState } from '../../domain/entities/CameraState';
 
 export interface PipelineCallbacks {
-  onMetrics: (metrics: EmotionMetrics, quality: DetectionQuality) => void;
+  onMetrics: (
+    metrics: EmotionMetrics, 
+    quality: DetectionQuality, 
+    extended?: {
+      dominantEmotion: string;
+      emotions: Record<string, number>;
+      stressLevel: number;
+    }
+  ) => void;
   onStateChange: (state: CameraState) => void;
   onError: (error: string) => void;
   onFpsUpdate: (fps: number) => void;
@@ -157,7 +165,7 @@ export class EmotionPipeline {
         break;
 
       case WorkerMessageType.METRICS:
-        this.callbacks.onMetrics(message.metrics, message.quality);
+        this.callbacks.onMetrics(message.metrics, message.quality, message.extended);
         this.callbacks.onFpsUpdate(message.fpsProc);
 
         // Update state based on quality

@@ -13,9 +13,11 @@ export const useEmotionPipeline = () => {
   const {
     setCameraState,
     setMetrics,
+    setExtendedData,
     setQuality,
     setTelemetry,
     setError,
+    addToHistory,
     cameraState,
   } = useEmotionStore();
 
@@ -31,11 +33,31 @@ export const useEmotionPipeline = () => {
       setError(null);
 
       const pipeline = new EmotionPipeline(cameraServiceRef.current, {
-        onMetrics: (metrics, quality) => {
+        onMetrics: (metrics, quality, extended) => {
           setMetrics(metrics);
           setQuality(quality);
           qualityMonitorRef.current.recordFaceDetection(!quality.faceLost);
           qualityMonitorRef.current.recordConfidence(metrics.confidence);
+
+          // Si hay datos extendidos, guardarlos
+          if (extended) {
+            setExtendedData({
+              dominantEmotion: extended.dominantEmotion,
+              emotions: extended.emotions as any,
+              stressLevel: extended.stressLevel,
+            });
+
+            // Agregar al historial
+            addToHistory({
+              timestamp: metrics.timestamp,
+              valence: metrics.valence,
+              intensidad: metrics.arousal,
+              confidence: metrics.confidence,
+              stressLevel: extended.stressLevel,
+              dominantEmotion: extended.dominantEmotion,
+              emotions: extended.emotions as any,
+            });
+          }
         },
         onStateChange: (state) => {
           setCameraState(state);
@@ -66,7 +88,7 @@ export const useEmotionPipeline = () => {
       setError(message);
       setCameraState(CameraState.ERROR);
     }
-  }, [setCameraState, setMetrics, setQuality, setTelemetry, setError]);
+  }, [setCameraState, setMetrics, setExtendedData, setQuality, setTelemetry, setError, addToHistory]);
 
   const stopCamera = useCallback(() => {
     if (pipelineRef.current) {

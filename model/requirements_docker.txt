@@ -1,0 +1,13 @@
+# Requirements para Docker (Linux)
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+opencv-python-headless==4.8.1.78
+deepface==0.0.95
+numpy==1.26.4
+pandas==2.2.3
+numexpr==2.8.7
+scipy==1.11.4
+tensorflow==2.16.2
+tf-keras==2.16.0
+pillow==10.1.0

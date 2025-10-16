@@ -34,9 +34,9 @@ export const EmotionHUD: React.FC<EmotionHUDProps> = ({
     return '😐 Neutral';
   };
 
-  const getArousalLabel = (arousal: number) => {
-    if (arousal > 0.7) return '🔥 Muy activado';
-    if (arousal > 0.4) return '⚡ Activado';
+  const getIntensidadLabel = (intensidad: number) => {
+    if (intensidad > 0.7) return '🔥 Muy activado';
+    if (intensidad > 0.4) return '⚡ Activado';
     return '😌 Calmado';
   };
 
@@ -74,12 +74,12 @@ export const EmotionHUD: React.FC<EmotionHUDProps> = ({
         </div>
       </div>
 
-      {/* Arousal */}
+      {/* Intensidad */}
       <div>
         <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-semibold text-gray-700">Arousal</span>
+          <span className="text-sm font-semibold text-gray-700">Intensidad</span>
           <span className="text-xs text-gray-600">
-            {getArousalLabel(metrics.arousal)}
+            {getIntensidadLabel(metrics.arousal)}
           </span>
         </div>
         <div className="relative w-full h-6 bg-gray-200 rounded-full overflow-hidden">
