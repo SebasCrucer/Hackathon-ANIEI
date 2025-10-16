@@ -88,3 +88,57 @@ fi
 
 echo "✨ Setup complete! You're ready to go!"
 
+echo "🔍 Detecting hardware..."
+ARCH=$(uname -m)
+OS=$(uname -s)
+
+if [[ "$OS" == "Darwin" && "$ARCH" == "arm64" ]]; then
+    echo "🍎 Detected: Mac with Apple Silicon (M1/M2/M3)"
+    REQUIREMENTS_TYPE="Apple Silicon"
+    elif command -v nvidia-smi &> /dev/null; then
+    echo "🚀 Detected: NVIDIA GPU"
+    REQUIREMENTS_TYPE="NVIDIA GPU"
+else
+    echo "💻 Detected: CPU only"
+    REQUIREMENTS_TYPE="CPU"
+fi
+echo ""
+
+# Install dependencies
+echo "📥 Installing dependencies..."
+pip install --upgrade pip
+pip install -r requirements_api.txt
+
+echo ""
+echo "✅ Installation complete!"
+echo ""
+echo "========================================"
+echo "🚀 Quick Start"
+echo "========================================"
+echo ""
+echo "1. Start the API server:"
+echo "   cd model && ./start_api.sh"
+echo "   (Or: cd model && python api_server.py)"
+echo ""
+echo "2. In another terminal, start the frontend:"
+echo "   npm run dev"
+echo ""
+echo "3. Open http://localhost:3000 in your browser"
+echo ""
+echo "📚 For more info, see DEEPFACE_INTEGRATION.md"
+echo ""
+
+# Make start script executable
+chmod +x start_api.sh
+
+# Create .env if it doesn't exist
+cd ..
+if [ ! -f ".env" ]; then
+    echo "📝 Creating .env file..."
+    cp .env.example .env
+    echo "✅ .env file created with DeepFace configuration"
+    echo ""
+fi
+
+echo "✨ Setup complete! You're ready to go!"
+
